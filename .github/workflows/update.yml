@@ -1,17 +1,24 @@
-name: Aktualizacja cen docelowych (TradingView)
+name: Aktualizacja danych GPW (co 15 min)
 
 on:
   schedule:
-    # Codziennie o 6:00 UTC (8:00 w Polsce)
-    - cron: "0 6 * * *"
-  workflow_dispatch: {}  # pozwala też odpalić ręcznie z zakładki Actions
+    # Co 15 minut przez cały dzień. UWAGA: GitHub Actions cron działa "best effort"
+    # i przy obciążeniu kolejki opóźnienia 5-15 min są normalne.
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}  # można też odpalić ręcznie z zakładki Actions
 
 permissions:
   contents: write
 
+# Anuluje poprzedni bieg jeśli nowy się zaczął - oszczędza minuty Actions
+concurrency:
+  group: update-data
+  cancel-in-progress: true
+
 jobs:
   update-data:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -25,12 +32,17 @@ jobs:
         run: pip install requests
 
       - name: Uruchom scraper
-        run: python scripts/update_targets.py
+        run: python scripts/update_data.py
+        continue-on-error: true  # nie psuj workflow jeśli jakiś request padnie
 
-      - name: Commit i push zmian
+      - name: Commit i push zmian (jeśli są)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data.json
-          git diff --staged --quiet || git commit -m "Auto-update: ceny docelowe TradingView $(date -u +'%Y-%m-%d')"
-          git push
+          if git diff --staged --quiet; then
+            echo "Brak zmian w data.json - nic do commitowania."
+          else
+            git commit -m "Auto-update: dane finansowe $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
