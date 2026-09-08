@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-08 07:52 UTC",
+  "last_updated": "2026-09-08 12:39 UTC",
   "source_report": "Spółki, które mogą poprawić wyniki w najbliższych 12 miesiącach – Przemysław Parzyszek, Analizy Prezesa / PortalAnaliz.pl",
   "methodology_note": "Zmiana zysku netto r/r = zysk netto za ostatni raportowany kwartał (Q1 2026) wobec tego samego kwartału rok wcześniej (Q1 2025), w %. P/S = kapitalizacja / przychody za ostatnie 12 miesięcy (TTM).",
   "companies": [
@@ -64,7 +64,7 @@
       "target_price": null,
       "potential_pct": null,
       "cz": 3.05,
-      "ps": 1.13,
+      "ps": 5.62,
       "ps_source": "biznesradar.pl (auto)",
       "profit_yoy_pct": null,
       "profit_yoy_source": "brak danych - wymaga weryfikacji najnowszego raportu kwartalnego",
@@ -132,7 +132,7 @@
       "target_max": 600,
       "potential_pct": 32.66,
       "cz": 7.22,
-      "ps": 1.97,
+      "ps": 1.75,
       "ps_source": "biznesradar.pl (auto)",
       "profit_yoy_pct": 4.24,
       "profit_yoy_source": "Q1 2026: 262,3 mln zł vs Q1 2025: 251,6 mln zł (raport spółki)",
